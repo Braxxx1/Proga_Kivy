@@ -1,10 +1,9 @@
-from settings import *
+from skeletScreenClass import *
 
 
-class MainScreen(Screen):
+class MainScreen(SceletScreen):
     def __init__(self, **kwargs):
-        super(MainScreen, self).__init__(**kwargs)
-        self._setup_ui()
+        super().__init__(**kwargs)
 
     def _setup_ui(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=[10, 50, 10, 50], size_hint=(1, None), height=500)
@@ -22,12 +21,6 @@ class MainScreen(Screen):
         layout.add_widget(button_layout)
         
         self.add_widget(layout)
-        
-    def _setup_background(self):
-        with self.canvas.before:
-            Color(0.5, 0.5, 1, 1)
-            self.rect = Rectangle(size=self.size, pos=self.pos)
-        self.bind(size=self._update_rect, pos=self._update_rect)
 
     def _create_button_layout(self):
         button_layout = BoxLayout(orientation='horizontal', spacing=10, size_hint=(1, None), height=50)
@@ -38,10 +31,6 @@ class MainScreen(Screen):
         auth_button.bind(on_press=self.authenticate)
         button_layout.add_widget(auth_button)
         return button_layout
-
-    def _update_rect(self, instance, value):
-        self.rect.pos = instance.pos
-        self.rect.size = instance.size
 
     def scan_barcode(self, instance):
         print("Штрих-код был отсканирован")

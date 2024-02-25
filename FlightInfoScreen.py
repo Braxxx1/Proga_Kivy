@@ -1,12 +1,12 @@
-from settings import *
+from skeletScreenClass import *
 
 
-class FlightInfoScreen(Screen):
+class FlightInfoScreen(SceletScreen):
     def __init__(self, **kwargs):
-        super(FlightInfoScreen, self).__init__(**kwargs)
-        self._setup_ui()
+        super().__init__(**kwargs)
 
     def _setup_ui(self):
+        self._setup_background()
         # Использование ScrollView
         scroll_view = ScrollView(do_scroll_x=False)
         content = GridLayout(cols=1, spacing=15, size_hint_y=None)
@@ -45,7 +45,6 @@ class FlightInfoScreen(Screen):
     def show_airport_map(self, instance):
         self.manager.current = 'airport_map'
 
-    
     def _add_map_button(self, layout):
         # Создание и добавление кнопки для показа карты в GridLayout
         map_button = Button(text="Показать карту аэропорта", size_hint_y=None, height=50)

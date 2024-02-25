@@ -1,16 +1,14 @@
-from settings import *
+from skeletScreenClass import *
 
 
-
-class AirportMapScreen(Screen):
+class AirportMapScreen(SceletScreen):
     def __init__(self, **kwargs):
-        super(AirportMapScreen, self).__init__(**kwargs)
-        self._setup_ui()
-         # Подписка на событие движения мыши
+        super().__init__(**kwargs)
         Window.bind(mouse_pos=self.on_mouse_move)
         self.overlay = None
 
     def _setup_ui(self):
+        self._setup_background()
         # Включение возможности прокрутки и масштабирования
         self.scroll_view = ScrollView(size_hint=(1, 1), do_scroll_x=True, do_scroll_y=True, bar_width=10)
         
