@@ -1,4 +1,4 @@
-from skeletScreenClass import *
+from Screens.skeletScreenClass import *
 
 
 class MainScreen(SceletScreen):

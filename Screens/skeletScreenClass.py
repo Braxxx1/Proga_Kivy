@@ -1,4 +1,4 @@
-from settings import *
+from CanstomClass.settings import *
 
 
 class SceletScreen(Screen):

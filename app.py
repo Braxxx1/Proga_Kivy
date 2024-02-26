@@ -1,7 +1,7 @@
-from settings import *
-from MainScreen import MainScreen
-from FlightInfoScreen import FlightInfoScreen
-from AirportMapScreen import AirportMapScreen
+from CanstomClass.settings import *
+from Screens.MainScreen import MainScreen
+from Screens.FlightInfoScreen import FlightInfoScreen
+from Screens.AirportMapScreen import AirportMapScreen
 
     
 class MyApp(App):

@@ -1,4 +1,6 @@
-from skeletScreenClass import *
+from Screens.skeletScreenClass import *
+from CanstomClass.CastomBox import *
+from CanstomClass.CastomLabel import *
 
 
 class FlightInfoScreen(SceletScreen):
@@ -9,7 +11,7 @@ class FlightInfoScreen(SceletScreen):
         self._setup_background()
         # Использование ScrollView
         scroll_view = ScrollView(do_scroll_x=False)
-        content = GridLayout(cols=1, spacing=15, size_hint_y=None)
+        content = GridLayout(cols=1, spacing=10, size_hint_y=None)
         content.bind(minimum_height=content.setter('height'))
 
         # Добавление заголовков и информации с использованием стилей
@@ -30,14 +32,12 @@ class FlightInfoScreen(SceletScreen):
         scroll_view.add_widget(content)
         self.add_widget(scroll_view)
 
-    def _add_info_section(self, layout, text, **text_props):
-        # Добавление заголовка секции
-        label = Label(text=text, size_hint_y=None, height=40, **text_props)
+    def _add_info_section(self, layout, text, font_size='16sp', bold=False):
+        label = BackgroundLabel(text=text, size_hint_y=None, height=40, font_size=font_size, bold=bold)
         layout.add_widget(label)
 
     def _add_info_row(self, layout, label_text, value_text):
-        # Создание строки с информацией
-        row = BoxLayout(orientation='horizontal', size_hint_y=None, height=30)
+        row = BackgroundBoxLayout(orientation='horizontal', size_hint_y=None, height=30)
         row.add_widget(Label(text=label_text, size_hint_x=0.5))
         row.add_widget(Label(text=value_text, size_hint_x=0.5))
         layout.add_widget(row)
