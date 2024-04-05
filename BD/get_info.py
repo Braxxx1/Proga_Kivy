@@ -350,19 +350,23 @@ def get_points_airport(airport_id):
         if len(points) != 0:
             for point in points:
                 if point[2] == 1:
-                    x, y = point[1].split()
+                    x, w, y, h = point[1].split()
                     gate_dict = {
                         'id_point': point[0],
                         'x': x,
-                        'y': y
+                        'y': y,
+                        'width': w,
+                        'height': h
                     }
                     gates_list.append(gate_dict)
                 elif point[2] == 0:
-                    x, y = point[1].split()
+                    x, w, y, h = point[1].split()
                     other_point_dict = {
                         'id_point': point[0],
                         'x': x,
                         'y': y,
+                        'width': w,
+                        'height': h
                     }
                     other_points_list.append(other_point_dict)
         gates_dict[num_floor[0]] = gates_list
@@ -379,6 +383,6 @@ def get_points_airport(airport_id):
 
 
 # copying_information('DME')
-# get_info_about_boarding_pass('1111111111')
+get_info_about_boarding_pass('1111111111')
 # get_all_points()
 get_points_airport('SVO')
