@@ -1,12 +1,11 @@
 
-
 import sqlite3 as sq
 import json as js
 
 
 #копирование информации из Airport.db в Application.db
 def copying_information(airport_id):
-    connection = sq.connect('DB/Airport.db')
+    connection = sq.connect('BD/Airport.db')
     cursor = connection.cursor()
 
     #чтение информации: связки аэропорт-город-страна
@@ -65,7 +64,7 @@ def copying_information(airport_id):
     connection.close()
 
 
-    connection = sq.connect('DB/Application.db')
+    connection = sq.connect('BD/Application.db')
     cursor = connection.cursor()
 
     #чтение информации при записи: связка аэропорт-город-страна
@@ -191,7 +190,7 @@ def copying_information(airport_id):
 
 
 def get_info_about_boarding_pass(id_num_boarding):
-    connection = sq.connect('DB/Application.db')
+    connection = sq.connect('BD/Application.db')
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -269,14 +268,14 @@ def get_info_about_boarding_pass(id_num_boarding):
         }
     }
 
-    with open ('Files/boarding.json', 'w') as f:
+    with open ('BD\\Files\\boarding.json', 'w') as f:
         f.write(js.dumps(boarding_info_dict, indent=4))
 
     connection.close()
 
 
 def get_points():
-    connection = sq.connect('DB/Application.db')
+    connection = sq.connect('BD/Application.db')
     cursor = connection.cursor()
 
     cursor.execute('SELECT id_airport, name_airport, name_city\
@@ -324,7 +323,7 @@ def get_points():
             'other_points': other_points_dict
         }
     
-    with open ('Files/points.json', 'w') as f:
+    with open ('BD\\Files\\points.json', 'w') as f:
         f.write(js.dumps(points_dict, indent=4))
     
     connection.close()
