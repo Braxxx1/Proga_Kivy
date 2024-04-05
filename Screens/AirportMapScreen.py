@@ -20,11 +20,12 @@ class AirportMapScreen(SceletScreen):
         # self.roi = [395, 1000, 40, 60]  # Задайте координаты в соответствии с вашим изображением
         # self.all_points = [[395, 1000, 40, 60], [500, 1000, 40, 60]]
         self.all_points = []
+        self.ind_points = []
         get_points = get_points_airport("SVO")
         for i in get_points:
             for j in get_points[i][3]:
+                self.ind_points.append(j["id_point"])
                 self.all_points.append((int(j['x']), int(j['y']), int(j['width']), int(j['height'])))
-        print(self.all_points)                  
         # Добавление изображения карты с возможностью масштабирования и свободного позиционирования
         self.map_image = Image(source='images\\b3.webp', allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         self.float_layout.add_widget(self.map_image)
@@ -35,8 +36,17 @@ class AirportMapScreen(SceletScreen):
     
     def update(self, dt):
         if len(self.overlay) == 2:
+            take_id = []
+            for i in self.overlay:
+                for j in range(len(self.all_points)):
+                    # print(i[:-1], j, i[:-1] in j)
+                    if i[0] in self.all_points[j] and i[1] in self.all_points[j]:
+                        take_id.append(self.ind_points[j])
+            
+                # print(i[:-1])
+            # print(get_route(take_id[0], take_id[1], 'SVO'))
             self.float_layout.remove_widget(self.map_image)
-            self.map_image = Image(source='images\\test.jpg', allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
+            self.map_image = Image(source=get_route(take_id[0], take_id[1], 'SVO'), allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
             self.float_layout.add_widget(self.map_image)
         if len(self.overlay) >= 1:
             to_del = self.overlay.copy()
@@ -100,7 +110,7 @@ class AirportMapScreen(SceletScreen):
         scroll_y = self.scroll_view.scroll_y * (self.float_layout.height - self.scroll_view.height)
         with self.canvas:
             Color(*color)  # Красный цвет
-            self.overlay[(roi[0], roi[1], color)] = Ellipse(pos=(roi[0] - scroll_x , roi[1] - scroll_y), size=(20, 20))
+            self.overlay[(roi[0], roi[1], color)] = Ellipse(pos=(roi[0] - scroll_x + 20, roi[1] - scroll_y), size=(20, 20))
             
     def remove_highlighted_point(self, roi, color):
         if len(self.overlay) >= 1:
