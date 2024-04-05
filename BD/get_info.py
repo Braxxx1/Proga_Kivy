@@ -270,8 +270,9 @@ def get_info_about_boarding_pass(id_num_boarding):
 
     with open ('BD\\Files\\boarding.json', 'w') as f:
         f.write(js.dumps(boarding_info_dict, indent=4))
-
     connection.close()
+    return boarding_info_dict
+    
 
 
 def get_all_points():
@@ -383,6 +384,6 @@ def get_points_airport(airport_id):
 
 
 # copying_information('DME')
-get_info_about_boarding_pass('1111111111')
+# get_info_about_boarding_pass('1111111111')
 # get_all_points()
 get_points_airport('SVO')

@@ -1,6 +1,8 @@
 from Screens.skeletScreenClass import *
 from CanstomClass.CastomBox import *
 from CanstomClass.CastomLabel import *
+import json
+from BD import get_info
 
 
 class FlightInfoScreen(SceletScreen):
@@ -13,19 +15,20 @@ class FlightInfoScreen(SceletScreen):
         scroll_view = ScrollView(do_scroll_x=False)
         content = GridLayout(cols=1, spacing=10, size_hint_y=None)
         content.bind(minimum_height=content.setter('height'))
-
+        data = get_info_about_boarding_pass("1111111111")
+        data = data[data["num_boarding"]]
         # Добавление заголовков и информации с использованием стилей
         self._add_info_section(content, "Информация о рейсе:", font_size='18sp', bold=True)
-        self._add_info_row(content, "Время отправления:", "14:00")
-        self._add_info_row(content, "Номер выхода:", "24")
-        self._add_info_row(content, "Номер места:", "12A")
-        self._add_info_row(content, "Номер и название рейса:", "SU1234, Аэрофлот")
-        self._add_info_row(content, "Точка отправления:", "Москва")
-        self._add_info_row(content, "Точка прибытия:", "Санкт-Петербург")
-
+        self._add_info_row(content, f"Время отправления:", data['time_from'])
+        self._add_info_row(content, "Номер выхода:", data["gate"])
+        self._add_info_row(content, "Номер места:", data["num_seat"])
+        self._add_info_row(content, "Номер рейса:", data["num_flight"])
+        self._add_info_row(content, "Точка отправления:", data["name_city_from"])
+        self._add_info_row(content, "Точка прибытия:", data["name_city_to"])
+        
         self._add_info_section(content, "Сведения о пассажире:", font_size='18sp', bold=True)
-        self._add_info_row(content, "ФИО:", "Иванов Иван Иванович")
-        self._add_info_row(content, "Паспортные данные:", "1234 567890")
+        self._add_info_row(content, "ФИО:", data["surname"] + " " + data["given_names"])
+        self._add_info_row(content, "Паспортные данные:", str(data["num_passport"]))
 
         self._add_map_button(content)
         
