@@ -43,10 +43,13 @@ class AirportMapScreen(SceletScreen):
     def on_touch_down(self, touch):
         scroll_x = self.scroll_view.scroll_x * (self.float_layout.width - self.scroll_view.width)
         scroll_y = self.scroll_view.scroll_y * (self.float_layout.height - self.scroll_view.height)
+        print(1)
         # Обработка нажатия в определенной области
         x, y = touch.pos[0] + scroll_x - self.float_layout.x, touch.pos[1] + scroll_y - self.float_layout.y
+        print(x,)
         for roi in self.all_points:
             if roi[0] <= x <= roi[0] + roi[2] and roi[1] <= y <= roi[1] + roi[3]:
+                print(2)
                 # print("Нажатие внутри ROI")
                 popup_content = BoxLayout(orientation='vertical',
                                           spacing=10,

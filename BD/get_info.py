@@ -1,5 +1,4 @@
 
-
 import sqlite3 as sq
 import json as js
 
@@ -269,7 +268,7 @@ def get_info_about_boarding_pass(id_num_boarding):
         }
     }
 
-    with open ('Files/boarding.json', 'w') as f:
+    with open ('BD\\Files\\boarding.json', 'w') as f:
         f.write(js.dumps(boarding_info_dict, indent=4))
 
     connection.close()
@@ -324,7 +323,7 @@ def get_points():
             'other_points': other_points_dict
         }
     
-    with open ('Files/points.json', 'w') as f:
+    with open ('BD\\Files\\points.json', 'w') as f:
         f.write(js.dumps(points_dict, indent=4))
     
     connection.close()
