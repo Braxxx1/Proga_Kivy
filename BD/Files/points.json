@@ -1,44 +1,20 @@
 {
-    "ALA": {
-        "gates": {},
-        "other_points": {}
+    "gates": {
+        "3": [
+            {
+                "id_point": 5,
+                "x": "0",
+                "y": "0"
+            }
+        ]
     },
-    "DME": {
-        "gates": {
-            "2": [
-                {
-                    "id_point": 1,
-                    "name_point": "E32"
-                }
-            ],
-            "1": [
-                {
-                    "id_point": 2,
-                    "name_point": "E26"
-                }
-            ]
-        },
-        "other_points": {
-            "2": [
-                {
-                    "id_point": 3,
-                    "name_point": "\u0422\u043e\u0447\u043a\u0430 1"
-                }
-            ],
-            "1": [
-                {
-                    "id_point": 4,
-                    "name_point": "\u0422\u043e\u0447\u043a\u0430 2"
-                }
-            ]
-        }
-    },
-    "DCA": {
-        "gates": {},
-        "other_points": {}
-    },
-    "LED": {
-        "gates": {},
-        "other_points": {}
+    "other_points": {
+        "3": [
+            {
+                "id_point": 3,
+                "x": "0",
+                "y": "0"
+            }
+        ]
     }
 }

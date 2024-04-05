@@ -5,7 +5,7 @@ import json as js
 
 #копирование информации из Airport.db в Application.db
 def copying_information(airport_id):
-    connection = sq.connect('BD/Airport.db')
+    connection = sq.connect('BD\\Airport.db')
     cursor = connection.cursor()
 
     #чтение информации: связки аэропорт-город-страна
@@ -64,7 +64,7 @@ def copying_information(airport_id):
     connection.close()
 
 
-    connection = sq.connect('BD/Application.db')
+    connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
 
     #чтение информации при записи: связка аэропорт-город-страна
@@ -190,7 +190,7 @@ def copying_information(airport_id):
 
 
 def get_info_about_boarding_pass(id_num_boarding):
-    connection = sq.connect('BD/Application.db')
+    connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -275,8 +275,8 @@ def get_info_about_boarding_pass(id_num_boarding):
     
 
 
-def get_points():
-    connection = sq.connect('BD/Application.db')
+def get_all_points():
+    connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
 
     cursor.execute('SELECT id_airport, name_airport, name_city\
@@ -324,12 +324,62 @@ def get_points():
             'other_points': other_points_dict
         }
     
+    with open ('BD\\Files\\all_points.json', 'w') as f:
+        f.write(js.dumps(points_dict, indent=4))
+    
+    connection.close()
+
+
+def get_points_airport(airport_id):
+    connection = sq.connect('BD\\Application.db')
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT distinct num_floor\
+                        FROM Points_routes\
+                        WHERE airport_id = ? and id_point != 0', [airport_id])
+    nums_floors = cursor.fetchall()
+    
+    gates_dict = {}
+    other_points_dict = {}
+    for num_floor in nums_floors:
+        cursor.execute('SELECT id_point, coordinates, if_gate\
+                            FROM Points_routes\
+                            WHERE airport_id = ? and id_point != 0 and num_floor = ?', [airport_id, num_floor[0]])
+        points = cursor.fetchall()
+        gates_list = []
+        other_points_list = []
+        if len(points) != 0:
+            for point in points:
+                if point[2] == 1:
+                    x, y = point[1].split()
+                    gate_dict = {
+                        'id_point': point[0],
+                        'x': x,
+                        'y': y
+                    }
+                    gates_list.append(gate_dict)
+                elif point[2] == 0:
+                    x, y = point[1].split()
+                    other_point_dict = {
+                        'id_point': point[0],
+                        'x': x,
+                        'y': y,
+                    }
+                    other_points_list.append(other_point_dict)
+        gates_dict[num_floor[0]] = gates_list
+        other_points_dict[num_floor[0]] = other_points_list
+    points_dict = {
+        'gates': gates_dict,
+        'other_points': other_points_dict
+    }
+    
     with open ('BD\\Files\\points.json', 'w') as f:
         f.write(js.dumps(points_dict, indent=4))
     
     connection.close()
-            
+
 
 copying_information('DME')
 get_info_about_boarding_pass('1111111111')
-get_points()
+# get_all_points()
+get_points_airport('SVO')
