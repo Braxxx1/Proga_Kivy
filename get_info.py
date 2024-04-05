@@ -6,7 +6,7 @@ import json as js
 
 #копирование информации из Airport.db в Application.db
 def copying_information(airport_id):
-    connection = sq.connect('DB/Airport.db')
+    connection = sq.connect('BD\\Airport.db')
     cursor = connection.cursor()
 
     #чтение информации: связки аэропорт-город-страна
@@ -65,7 +65,7 @@ def copying_information(airport_id):
     connection.close()
 
 
-    connection = sq.connect('DB/Application.db')
+    connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
 
     #чтение информации при записи: связка аэропорт-город-страна
@@ -191,7 +191,7 @@ def copying_information(airport_id):
 
 
 def get_info_about_boarding_pass(id_num_boarding):
-    connection = sq.connect('DB/Application.db')
+    connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -276,7 +276,7 @@ def get_info_about_boarding_pass(id_num_boarding):
 
 
 def get_points():
-    connection = sq.connect('DB/Application.db')
+    connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
 
     cursor.execute('SELECT id_airport, name_airport, name_city\
