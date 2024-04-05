@@ -274,7 +274,6 @@ def get_info_about_boarding_pass(id_num_boarding):
     return boarding_info_dict
     
 
-
 def get_all_points():
     connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
@@ -384,7 +383,22 @@ def get_points_airport(airport_id):
     
 
 
+def get_route(point_1, point_2, airport_id):
+    connection = sq.connect('BD\\Application.db')
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT route\
+                    FROM Routes JOIN Points_routes ON Routes.start_point_id = Points_routes.id_point\
+                    WHERE ((Routes.start_point_id = ? and Routes.end_point_id = ?) or\
+                    (Routes.start_point_id = ? and Routes.end_point_id = ?))\
+                    and airport_id = ?', [int(point_1), int(point_2), int(point_2), int(point_1), str(airport_id)])
+    route = cursor.fetchone()
+    connection.close()
+    return(route[0])
+
+
 # copying_information('DME')
 # get_info_about_boarding_pass('1111111111')
 # get_all_points()
-get_points_airport('SVO')
+# get_points_airport('SVO')
+print(get_route(3, 5, 'SVO'))
