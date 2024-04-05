@@ -379,8 +379,9 @@ def get_points_airport(airport_id):
     
     with open ('BD\\Files\\points.json', 'w') as f:
         f.write(js.dumps(points_dict, indent=4))
-    
     connection.close()
+    return points_dict
+    
 
 
 # copying_information('DME')
