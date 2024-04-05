@@ -4,6 +4,7 @@ from Screens.skeletScreenClass import *
 class MainScreen(SceletScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.is_scan = False
 
     def _setup_ui(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=[10, 50, 10, 50], size_hint=(1, None), height=500)
@@ -33,9 +34,12 @@ class MainScreen(SceletScreen):
         return button_layout
 
     def scan_barcode(self, instance):
+        self.ticket_input.text = "1111111111"
         print("Штрих-код был отсканирован")
+        self.is_scan = True
 
     def authenticate(self, instance):
-        print("Пользователь был авторизован")
-        self.manager.current = 'flight_info'
+        if self.is_scan:
+            print("Пользователь был авторизован")
+            self.manager.current = 'flight_info'
 

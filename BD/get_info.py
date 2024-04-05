@@ -270,8 +270,9 @@ def get_info_about_boarding_pass(id_num_boarding):
 
     with open ('BD\\Files\\boarding.json', 'w') as f:
         f.write(js.dumps(boarding_info_dict, indent=4))
-
     connection.close()
+    return boarding_info_dict
+    
 
 
 def get_points():

@@ -17,3 +17,4 @@ from kivy.core.window import Window
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.clock import Clock
+from BD.get_info import *
