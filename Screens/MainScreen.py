@@ -25,10 +25,10 @@ class MainScreen(SceletScreen):
 
     def _create_button_layout(self):
         button_layout = BoxLayout(orientation='horizontal', spacing=10, size_hint=(1, None), height=50)
-        scan_button = Button(text="Сканировать штрих-код")
+        scan_button = Button(text="Сканировать штрих-код", background_color=(0.5, 0.5, 1, 1))
         scan_button.bind(on_press=self.scan_barcode)
         button_layout.add_widget(scan_button)
-        auth_button = Button(text="Авторизация")
+        auth_button = Button(text="Авторизация", background_color=(0.5, 0.5, 1, 1))
         auth_button.bind(on_press=self.authenticate)
         button_layout.add_widget(auth_button)
         return button_layout

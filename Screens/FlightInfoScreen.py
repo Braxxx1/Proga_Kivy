@@ -1,8 +1,6 @@
 from Screens.skeletScreenClass import *
 from CanstomClass.CastomBox import *
 from CanstomClass.CastomLabel import *
-import json
-from BD import get_info
 
 
 class FlightInfoScreen(SceletScreen):
@@ -31,6 +29,7 @@ class FlightInfoScreen(SceletScreen):
         self._add_info_row(content, "Паспортные данные:", str(data["num_passport"]))
 
         self._add_map_button(content)
+        self._add_mainScreen_button(content)
         
         scroll_view.add_widget(content)
         self.add_widget(scroll_view)
@@ -45,11 +44,19 @@ class FlightInfoScreen(SceletScreen):
         row.add_widget(Label(text=value_text, size_hint_x=0.5))
         layout.add_widget(row)
         
-    def show_airport_map(self, instance):
-        self.manager.current = 'airport_map'
+    def show_airport_map(self, i):
+        self.manager.current = 'choose_floor'
+        
+    def show_mainScreen(self, i):
+        self.manager.current = 'main'
 
     def _add_map_button(self, layout):
         # Создание и добавление кнопки для показа карты в GridLayout
-        map_button = Button(text="Показать карту аэропорта", size_hint_y=None, height=50)
+        map_button = Button(text="Показать карту аэропорта", size_hint_y=None, height=50, background_color=(0.5, 0.5, 1, 1))
         map_button.bind(on_press=self.show_airport_map)
+        layout.add_widget(map_button)
+
+    def _add_mainScreen_button(self, layout):
+        map_button = Button(text="Назад", size_hint_y=None, height=50, background_color=(0.5, 0.5, 1, 1))
+        map_button.bind(on_press=self.show_mainScreen)
         layout.add_widget(map_button)

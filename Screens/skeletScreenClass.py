@@ -2,6 +2,12 @@ from CanstomClass.settings import *
 
 
 class SceletScreen(Screen):
+    
+    airport_map_start = {0:"",
+                         1:'D:\\Working\\kivi_prog\\Proga_Kivy\\images\\b1.webp',
+                         2:'D:\\Working\\kivi_prog\\Proga_Kivy\\images\\b2.webp',
+                         3:'D:\\Working\\kivi_prog\\Proga_Kivy\\images\\b3.webp'}
+    ind = 0
     def __init__(self, **kwargs):
         super(SceletScreen, self).__init__(**kwargs)
         self._setup_ui()
