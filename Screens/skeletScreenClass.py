@@ -2,7 +2,7 @@ from CanstomClass.settings import *
 
 
 class SceletScreen(Screen):
-    
+    ticket_input = ''
     airport_map_start = {0:"",
                          1:'images\\b1.webp',
                          2:'images\\b2.webp',

@@ -20,13 +20,7 @@ class AirportMapScreen(SceletScreen):
         # Область интереса (например, [x, y, width, height])
         self.all_points = []
         self.ind_points = []
-        # get_points = get_points_airport("SVO")
-        # for i in get_points:
-        #     for j in get_points[i][3]:
-        #         self.ind_points.append(j["id_point"])
-        #         self.all_points.append((int(j['x']), int(j['y']), int(j['width']), int(j['height'])))
-        # Добавление изображения карты с возможностью масштабирования и свободного позиционирования
-        
+        self.airport_from = ''
         self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         self.float_layout.add_widget(self.map_image)
 
@@ -39,7 +33,9 @@ class AirportMapScreen(SceletScreen):
     
     def update(self, dt):
         if self.start == 0 and SceletScreen.ind != 0:
-            get_points = get_points_airport("SVO")
+            data = get_info_about_boarding_pass(SceletScreen.ticket_input)
+            self.airport_from = data[data["num_boarding"]]["airport_from"]
+            get_points = get_points_airport(self.airport_from)
             for i in get_points:
                 for j in get_points[i][SceletScreen.ind]:
                     self.ind_points.append(j["id_point"])
@@ -60,7 +56,7 @@ class AirportMapScreen(SceletScreen):
                 # print(i[:-1])
             # print(get_route(take_id[0], take_id[1], 'SVO'))
             self.float_layout.remove_widget(self.map_image)
-            self.map_image = Image(source=get_route(take_id[0], take_id[1], 'SVO'), allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
+            self.map_image = Image(source=get_route(take_id[0], take_id[1], self.airport_from), allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
             self.float_layout.add_widget(self.map_image)
             
         if len(self.overlay) >= 1:
