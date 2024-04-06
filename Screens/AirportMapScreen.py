@@ -5,6 +5,7 @@ class AirportMapScreen(SceletScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # Window.bind(mouse_pos=self.on_mouse_move)
+        self.start = 0
         self.overlay = {}
         Clock.schedule_interval(self.update, 1.0 / 60.0)
 
@@ -17,24 +18,37 @@ class AirportMapScreen(SceletScreen):
         self.float_layout = FloatLayout(size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         
         # Область интереса (например, [x, y, width, height])
-        # self.roi = [395, 1000, 40, 60]  # Задайте координаты в соответствии с вашим изображением
-        # self.all_points = [[395, 1000, 40, 60], [500, 1000, 40, 60]]
         self.all_points = []
         self.ind_points = []
-        get_points = get_points_airport("SVO")
-        for i in get_points:
-            for j in get_points[i][3]:
-                self.ind_points.append(j["id_point"])
-                self.all_points.append((int(j['x']), int(j['y']), int(j['width']), int(j['height'])))
+        # get_points = get_points_airport("SVO")
+        # for i in get_points:
+        #     for j in get_points[i][3]:
+        #         self.ind_points.append(j["id_point"])
+        #         self.all_points.append((int(j['x']), int(j['y']), int(j['width']), int(j['height'])))
         # Добавление изображения карты с возможностью масштабирования и свободного позиционирования
-        self.map_image = Image(source='images\\b3.webp', allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
+        
+        self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         self.float_layout.add_widget(self.map_image)
 
         self.scroll_view.add_widget(self.float_layout)
         self.add_widget(self.scroll_view)
         
+        map_button = Button(text="Назад", size_hint_y=None, height=50, background_color=(0.5, 0.5, 1, 1))
+        map_button.bind(on_press=self.show_mainScreen)
+        self.add_widget(map_button)
     
     def update(self, dt):
+        if self.start == 0 and SceletScreen.ind != 0:
+            get_points = get_points_airport("SVO")
+            for i in get_points:
+                for j in get_points[i][SceletScreen.ind]:
+                    self.ind_points.append(j["id_point"])
+                    self.all_points.append((int(j['x']), int(j['y']), int(j['width']), int(j['height'])))
+            self.start = 1
+            self.float_layout.remove_widget(self.map_image)
+            self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
+            self.float_layout.add_widget(self.map_image)    
+        # print(SceletScreen.airport_map_start)
         if len(self.overlay) == 2:
             take_id = []
             for i in self.overlay:
@@ -48,21 +62,19 @@ class AirportMapScreen(SceletScreen):
             self.float_layout.remove_widget(self.map_image)
             self.map_image = Image(source=get_route(take_id[0], take_id[1], 'SVO'), allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
             self.float_layout.add_widget(self.map_image)
+            
         if len(self.overlay) >= 1:
             to_del = self.overlay.copy()
             for i in to_del:
                 if len(to_del) >= 1:
                     self.remove_highlighted_point(i, i[-1])
                     self.draw_red_circle(i, i[-1])
-        
     
     def on_touch_down(self, touch):
         scroll_x = self.scroll_view.scroll_x * (self.float_layout.width - self.scroll_view.width)
         scroll_y = self.scroll_view.scroll_y * (self.float_layout.height - self.scroll_view.height)
         # Обработка нажатия в определенной области
         x, y = touch.pos[0] + scroll_x - self.float_layout.x, touch.pos[1] + scroll_y - self.float_layout.y
-        print(x,)
-        print(x, y)
         for roi in self.all_points:
             if roi[0] <= x <= roi[0] + roi[2] and roi[1] <= y <= roi[1] + roi[3]:
                 # print("Нажатие внутри ROI")
@@ -123,6 +135,10 @@ class AirportMapScreen(SceletScreen):
             self.canvas.remove(self.overlay[i])
             del self.overlay[i]
         self.float_layout.remove_widget(self.map_image)
-        self.map_image = Image(source='images\\b3.webp', allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
+        self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         self.float_layout.add_widget(self.map_image)
     
+    def show_mainScreen(self, i):
+        self.start = 0
+        SceletScreen.ind = 0
+        self.manager.current = 'choose_floor'
