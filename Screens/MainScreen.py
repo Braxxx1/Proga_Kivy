@@ -33,7 +33,7 @@ class MainScreen(SceletScreen):
             current_datetime = datetime.now()
             # Задайте другую дату времени
             # other_datetime_str = data
-            other_datetime_str = "2024-04-8 22:30:00.000"
+            other_datetime_str = "2024-04-9 00:51:00.000"
             other_datetime = datetime.strptime(other_datetime_str, "%Y-%m-%d %H:%M:%S.%f")
 
             # Вычислите разницу между датами
