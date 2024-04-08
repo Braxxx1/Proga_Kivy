@@ -118,7 +118,7 @@ class AirportMapScreen(SceletScreen):
         scroll_y = self.scroll_view.scroll_y * (self.float_layout.height - self.scroll_view.height)
         with self.canvas:
             Color(*color)  # Красный цвет
-            self.overlay[(roi[0], roi[1], color)] = Ellipse(pos=(roi[0] - scroll_x + 20, roi[1] - scroll_y), size=(20, 20))
+            self.overlay[(roi[0], roi[1], color)] = Ellipse(pos=(roi[0] - scroll_x, roi[1] - scroll_y), size=(20, 20))
             
     def remove_highlighted_point(self, roi, color):
         if len(self.overlay) >= 1:
