@@ -400,5 +400,5 @@ def get_route(point_1, point_2, airport_id):
 # copying_information('DME')
 # get_info_about_boarding_pass('1111111111')
 # get_all_points()
-get_points_airport('SVO')
-print(get_route(3, 5, 'SVO'))
+# get_points_airport('SVO')
+# print(get_route(3, 5, 'SVO'))
