@@ -34,6 +34,7 @@ class MainScreen(SceletScreen):
         return button_layout
 
     def scan_barcode(self, instance):
+        SceletScreen.ticket_input = "1111111111"
         self.ticket_input.text = "1111111111"
         print("Штрих-код был отсканирован")
         self.is_scan = True
