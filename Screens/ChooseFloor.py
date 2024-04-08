@@ -15,7 +15,7 @@ class ChooseFloor(SceletScreen):
         button_content = GridLayout(cols=1, spacing=10)
         button_content.bind(minimum_height=content.setter('height'))
         
-        self._add_info_section(content, "Информация о рейсе:", font_size='18sp', bold=True)
+        self._add_info_section(content, "Выбор этажа:", font_size='18sp', bold=True)
         for i in range(1, 4):
             self._add_first_button(button_content, i)
         self._add_mainScreen_button(button_content)
@@ -24,6 +24,8 @@ class ChooseFloor(SceletScreen):
 
     def show_airport_map(self, i):
         SceletScreen.ind = int(i.text.split()[0])
+        print(SceletScreen.ind)
+        SceletScreen.start_air = 0
         self.manager.current = 'airport_map'
         
     def show_mainScreen(self, i):

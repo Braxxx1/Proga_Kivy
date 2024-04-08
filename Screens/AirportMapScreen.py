@@ -21,6 +21,7 @@ class AirportMapScreen(SceletScreen):
         self.all_points = []
         self.ind_points = []
         self.airport_from = ''
+        print(SceletScreen.ind, "хуй")
         self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         self.float_layout.add_widget(self.map_image)
 
@@ -34,8 +35,8 @@ class AirportMapScreen(SceletScreen):
     
     def update(self, dt):
         
-        if self.start == 0 and SceletScreen.ind != 0:
-            self._setup_ui()
+        if SceletScreen.start_air == 0 and SceletScreen.ind != 0:
+            # self._setup_ui()
             data = get_info_about_boarding_pass(SceletScreen.ticket_input)
             self.airport_from = data[data["num_boarding"]]["airport_from"]
             get_points = get_points_airport(self.airport_from)
@@ -43,11 +44,11 @@ class AirportMapScreen(SceletScreen):
                 for j in get_points[i][SceletScreen.ind]:
                     self.ind_points.append(j["id_point"])
                     self.all_points.append((int(j['x']), int(j['y']), int(j['width']), int(j['height'])))
-            self.start = 1
+            SceletScreen.start_air = 1
             self.float_layout.remove_widget(self.map_image)
             self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
             self.float_layout.add_widget(self.map_image)    
-        # print(SceletScreen.airport_map_start)
+        
         if (SceletScreen.dime_to_go != '' and SceletScreen.start_go):
             points = SceletScreen.dime_to_go
             self.overlay[(int(points['x1']), int(points['y1']), points['color1'])] = ''
@@ -143,9 +144,7 @@ class AirportMapScreen(SceletScreen):
         self.float_layout.add_widget(self.map_image)
     
     def show_mainScreen(self, i):
-        self.start = 0
         self.all_points = []
         self.ind_points = []
-        self.overlay = {}
-        self.canvas.clear() 
+        self.remove_all_highlighted_point()
         self.manager.current = 'choose_floor'

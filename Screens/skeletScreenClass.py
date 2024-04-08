@@ -10,6 +10,7 @@ class SceletScreen(Screen):
     ind = 0
     dime_to_go = ''
     start_go = True
+    start_air = 0
     def __init__(self, **kwargs):
         super(SceletScreen, self).__init__(**kwargs)
         self._setup_ui()

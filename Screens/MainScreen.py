@@ -5,7 +5,7 @@ class MainScreen(SceletScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.is_scan = False
-        Clock.schedule_interval(self.update, 4.0 / 1)
+        Clock.schedule_interval(self.update, 60.0 / 1)
 
     def _setup_ui(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=[10, 50, 10, 50], size_hint=(1, None), height=500)
@@ -27,13 +27,13 @@ class MainScreen(SceletScreen):
         self.add_widget(layout)
 
     def update(self, dt):
-        if SceletScreen.start_go:
+        if SceletScreen.start_go and self.is_scan:
             data = get_info_about_boarding_pass("1111111111")
             data = data[data["num_boarding"]]['time_from']
             current_datetime = datetime.now()
             # Задайте другую дату времени
             # other_datetime_str = data
-            other_datetime_str = "2024-04-8 21:58:00.000"
+            other_datetime_str = "2024-04-8 22:30:00.000"
             other_datetime = datetime.strptime(other_datetime_str, "%Y-%m-%d %H:%M:%S.%f")
 
             # Вычислите разницу между датами
@@ -59,7 +59,7 @@ class MainScreen(SceletScreen):
 
     def go_to_passage(self):
         SceletScreen.dime_to_go = image_notification("1111111111")
-        SceletScreen.ind = 3
+        SceletScreen.ind = SceletScreen.dime_to_go['num_floor']
         self.popup.dismiss()
         self.manager.current = 'airport_map'
         print(1)
