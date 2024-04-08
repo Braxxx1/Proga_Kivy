@@ -352,21 +352,21 @@ def get_points_airport(airport_id):
                 if point[2] == 1:
                     x, w, y, h = point[1].split()
                     gate_dict = {
-                        'id_point': point[0],
-                        'x': x,
-                        'y': y,
-                        'width': w,
-                        'height': h
+                        'id_point': int(point[0]),
+                        'x': int(x),
+                        'y': int(y),
+                        'width': int(w),
+                        'height': int(h)
                     }
                     gates_list.append(gate_dict)
                 elif point[2] == 0:
                     x, w, y, h = point[1].split()
                     other_point_dict = {
-                        'id_point': point[0],
-                        'x': x,
-                        'y': y,
-                        'width': w,
-                        'height': h
+                        'id_point': int(point[0]),
+                        'x': int(x),
+                        'y': int(y),
+                        'width': int(w),
+                        'height': int(h)
                     }
                     other_points_list.append(other_point_dict)
         gates_dict[num_floor[0]] = gates_list
@@ -418,29 +418,31 @@ def image_notification(id_num_boarding):
                     WHERE boarding_passes.id_num_boarding = ?', [str(id_num_boarding)])
     points = cursor.fetchone()
 
-    cursor.execute('SELECT coordinates\
+    cursor.execute('SELECT coordinates, num_floor\
                     FROM Points_routes\
                     WHERE id_point = ?', [points[0]])
     point_1 = cursor.fetchone()
     x1, w, y1, h = point_1[0].split()
-
+    num_floor = point_1[1]
     cursor.execute('SELECT coordinates\
                     FROM Points_routes\
                     WHERE id_point = ?', [points[1]])
-    point_1 = cursor.fetchone()
-    x2, w, y2, h = point_1[0].split()
+    point_2 = cursor.fetchone()
+    x2, w, y2, h = point_2[0].split()
     
     coordinates_dict = {
-        'x1': x1,
-        'y1': y1,
+        'x1': int(x1),
+        'y1': int(y1),
         'color1': (1,0,0,1),
-        'x2': x2,
-        'y2': y2,
-        'color2': (0, 1, 0, 1)
+        'x2': int(x2),
+        'y2': int(y2),
+        'color2': (0, 1, 0, 1),
+        'num_floor': int(point_1[1])
     }
     with open ('BD\\Files\\points_exit.json', 'w') as f:
         f.write(js.dumps(coordinates_dict, indent=4))
     connection.close()
+    return coordinates_dict
 
 
 # copying_information('DME')
