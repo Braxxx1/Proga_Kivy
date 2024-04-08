@@ -382,7 +382,6 @@ def get_points_airport(airport_id):
     return points_dict
     
 
-
 def get_route(point_1, point_2, airport_id):
     connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
@@ -397,8 +396,57 @@ def get_route(point_1, point_2, airport_id):
     return(route[0])
 
 
+def scaning_boarding_pass(point_id, id_num_boarding):
+    connection = sq.connect('BD\\Application.db')
+    cursor = connection.cursor()
+
+    cursor.execute('UPDATE boarding_passes\
+                    SET current_point_id = ?\
+                    WHERE boarding_passes.id_num_boarding = ?', [int(point_id), str(id_num_boarding)])
+    
+    connection.commit()
+    connection.close()
+
+
+def image_notification(id_num_boarding):
+    connection = sq.connect('BD\\Application.db')
+    cursor = connection.cursor()
+
+    cursor.execute('SELECT current_point_id, point_gate_id\
+                    FROM Boarding_passes\
+                    JOIN Flights ON Boarding_passes.num_flight_id = Flights.id_num_flight\
+                    WHERE boarding_passes.id_num_boarding = ?', [str(id_num_boarding)])
+    points = cursor.fetchone()
+
+    cursor.execute('SELECT coordinates\
+                    FROM Points_routes\
+                    WHERE id_point = ?', [points[0]])
+    point_1 = cursor.fetchone()
+    x1, w, y1, h = point_1[0].split()
+
+    cursor.execute('SELECT coordinates\
+                    FROM Points_routes\
+                    WHERE id_point = ?', [points[1]])
+    point_1 = cursor.fetchone()
+    x2, w, y2, h = point_1[0].split()
+    
+    coordinates_dict = {
+        'x1': x1,
+        'y1': y1,
+        'color1': (1,0,0,1),
+        'x2': x2,
+        'y2': y2,
+        'color2': (0, 1, 0, 1)
+    }
+    with open ('BD\\Files\\points_exit.json', 'w') as f:
+        f.write(js.dumps(coordinates_dict, indent=4))
+    connection.close()
+
+
 # copying_information('DME')
 # get_info_about_boarding_pass('1111111111')
 # get_all_points()
-get_points_airport('SVO')
-print(get_route(3, 5, 'SVO'))
+# get_points_airport('SVO')
+# print(get_route(3, 5, 'SVO'))
+# scaning_boarding_pass(3, 1111111111)
+# image_notification(1111111111)
