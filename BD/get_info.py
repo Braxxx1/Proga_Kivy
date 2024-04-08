@@ -382,7 +382,6 @@ def get_points_airport(airport_id):
     return points_dict
     
 
-
 def get_route(point_1, point_2, airport_id):
     connection = sq.connect('BD\\Application.db')
     cursor = connection.cursor()
@@ -449,5 +448,5 @@ def image_notification(id_num_boarding):
 # get_all_points()
 # get_points_airport('SVO')
 # print(get_route(3, 5, 'SVO'))
-scaning_boarding_pass('3', 1111111111)
-image_notification(1111111111)
+# scaning_boarding_pass(3, 1111111111)
+# image_notification(1111111111)
