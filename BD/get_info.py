@@ -441,6 +441,7 @@ def image_notification(id_num_boarding):
     with open ('BD\\Files\\points_exit.json', 'w') as f:
         f.write(js.dumps(coordinates_dict, indent=4))
     connection.close()
+    return coordinates_dict
 
 
 # copying_information('DME')

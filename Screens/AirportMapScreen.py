@@ -31,12 +31,11 @@ class AirportMapScreen(SceletScreen):
         map_button.bind(on_press=self.show_mainScreen)
         self.add_widget(map_button)
         
-        
-    
     
     def update(self, dt):
         
         if self.start == 0 and SceletScreen.ind != 0:
+            self._setup_ui()
             data = get_info_about_boarding_pass(SceletScreen.ticket_input)
             self.airport_from = data[data["num_boarding"]]["airport_from"]
             get_points = get_points_airport(self.airport_from)
@@ -49,6 +48,11 @@ class AirportMapScreen(SceletScreen):
             self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
             self.float_layout.add_widget(self.map_image)    
         # print(SceletScreen.airport_map_start)
+        if (SceletScreen.dime_to_go != '' and SceletScreen.start_go):
+            points = SceletScreen.dime_to_go
+            self.overlay[(int(points['x1']), int(points['y1']), points['color1'])] = ''
+            self.overlay[(int(points['x2']), int(points['y2']), points['color2'])] = ''
+            SceletScreen.start_go = False
         if len(self.overlay) == 2:
             take_id = []
             for i in self.overlay:
@@ -125,7 +129,7 @@ class AirportMapScreen(SceletScreen):
             self.overlay[(roi[0], roi[1], color)] = Ellipse(pos=(roi[0] - scroll_x, roi[1] - scroll_y), size=(20, 20))
             
     def remove_highlighted_point(self, roi, color):
-        if len(self.overlay) >= 1:
+        if len(self.overlay) >= 1 and self.overlay[(roi[0], roi[1], color)] != '':
             self.canvas.remove(self.overlay[(roi[0], roi[1], color)])
             del self.overlay[(roi[0], roi[1], color)]
             
@@ -140,5 +144,8 @@ class AirportMapScreen(SceletScreen):
     
     def show_mainScreen(self, i):
         self.start = 0
-        SceletScreen.ind = 0
+        self.all_points = []
+        self.ind_points = []
+        self.overlay = {}
+        self.canvas.clear() 
         self.manager.current = 'choose_floor'
