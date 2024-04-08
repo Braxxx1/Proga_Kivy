@@ -8,6 +8,8 @@ class MainScreen(SceletScreen):
 
     def _setup_ui(self):
         layout = BoxLayout(orientation='vertical', spacing=10, padding=[10, 50, 10, 50], size_hint=(1, None), height=500)
+        self.notif = Notification()
+        layout.add_widget(self.notif)
         layout.pos_hint = {'center_x': 0.5, 'center_y': 0.8}
         
         label = Label(text="Добро пожаловать!", font_size='20sp', size_hint=(1, None), height=50)
@@ -34,6 +36,7 @@ class MainScreen(SceletScreen):
         return button_layout
 
     def scan_barcode(self, instance):
+        self.notif.show_notification("Вы успешно авторизовались")
         SceletScreen.ticket_input = "1111111111"
         self.ticket_input.text = "1111111111"
         print("Штрих-код был отсканирован")

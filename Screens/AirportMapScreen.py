@@ -30,8 +30,12 @@ class AirportMapScreen(SceletScreen):
         map_button = Button(text="Назад", size_hint_y=None, height=50, background_color=(0.5, 0.5, 1, 1))
         map_button.bind(on_press=self.show_mainScreen)
         self.add_widget(map_button)
+        
+        
+    
     
     def update(self, dt):
+        
         if self.start == 0 and SceletScreen.ind != 0:
             data = get_info_about_boarding_pass(SceletScreen.ticket_input)
             self.airport_from = data[data["num_boarding"]]["airport_from"]
