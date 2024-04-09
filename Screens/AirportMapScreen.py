@@ -21,7 +21,6 @@ class AirportMapScreen(SceletScreen):
         self.all_points = []
         self.ind_points = []
         self.airport_from = ''
-        print(SceletScreen.ind, "хуй")
         self.map_image = Image(source=SceletScreen.airport_map_start[SceletScreen.ind], allow_stretch=True, keep_ratio=False, size_hint=(None, None), size=(Window.width * 2, Window.height * 2))
         self.float_layout.add_widget(self.map_image)
 
