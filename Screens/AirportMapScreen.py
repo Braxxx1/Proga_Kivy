@@ -79,6 +79,7 @@ class AirportMapScreen(SceletScreen):
         scroll_y = self.scroll_view.scroll_y * (self.float_layout.height - self.scroll_view.height)
         # Обработка нажатия в определенной области
         x, y = touch.pos[0] + scroll_x - self.float_layout.x, touch.pos[1] + scroll_y - self.float_layout.y
+        print(x,y)
         for roi in self.all_points:
             if roi[0] <= x <= roi[0] + roi[2] and roi[1] <= y <= roi[1] + roi[3]:
                 # print("Нажатие внутри ROI")
